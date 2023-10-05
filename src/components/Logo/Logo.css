@@ -1,0 +1,13 @@
+.logo {
+  height: 38px;
+  width: 38px;
+  background-color: rgba(0 0 0 0);
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: solid 10px #2be080;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}

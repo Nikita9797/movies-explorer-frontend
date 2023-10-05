@@ -1,0 +1,23 @@
+.nav-tab {
+  text-decoration: none;
+}
+
+.nav-tab__button {
+  margin: 0;
+  width: 129px;
+  height: 36px;
+  background-color: transparent;
+  border: 1px solid #fff;
+  border-radius: 3px;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+  box-sizing: border-box;
+  display: block;
+}
+
+@media screen and (max-width: 769px) {
+  .nav-tab__button {
+    margin: 0 auto;
+  }
+}
