@@ -10,9 +10,9 @@ function FilterCheckbox() {
           type='checkbox'
           name='checkbox'
         ></input>
-        <div className='filter-checkbox__custom'>
-          <div className='filter-checkbox__custom-button'></div>
-        </div>
+        <span className='filter-checkbox__custom'>
+          <span className='filter-checkbox__custom-button'></span>
+        </span>
         Короткометражки
       </label>
     </div>

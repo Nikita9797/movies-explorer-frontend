@@ -4,11 +4,11 @@ import { Link, NavLink } from 'react-router-dom';
 import AccountButton from '../AccountButton/AccountButton';
 
 function Navigation({ loggedIn, onPopupMenu, headerThemeLight }) {
-  const className = `navigation__link ${
-    headerThemeLight && 'navigation__link_theme_light'
-  }`;
+  const className = headerThemeLight
+    ? 'navigation__link navigation__link_theme_light'
+    : 'navigation__link';
   const isActive = ({ isActive }) =>
-    isActive ? 'navigation__link_active' : `${className}`;
+    isActive ? `${className} navigation__link_active` : `${className}`;
 
   return loggedIn ? (
     <>
@@ -21,21 +21,21 @@ function Navigation({ loggedIn, onPopupMenu, headerThemeLight }) {
             Сохраненные фильмы
           </NavLink>
           <button className={'navigation__burger-menu'} onClick={onPopupMenu}>
-            <div
+            <span
               className={`navigation__burger-menu-line ${
                 headerThemeLight && 'navigation__burger-menu-line_theme_light'
               }`}
-            ></div>
-            <div
+            ></span>
+            <span
               className={`navigation__burger-menu-line ${
                 headerThemeLight && 'navigation__burger-menu-line_theme_light'
               }`}
-            ></div>
-            <div
+            ></span>
+            <span
               className={`navigation__burger-menu-line ${
                 headerThemeLight && 'navigation__burger-menu-line_theme_light'
               }`}
-            ></div>
+            ></span>
           </button>
         </nav>
       </div>
@@ -48,9 +48,7 @@ function Navigation({ loggedIn, onPopupMenu, headerThemeLight }) {
           Регистрация
         </Link>
         <Link to='/signin' className='navigation__link-button-unauthorized'>
-          <button className='navigation__button-unauthorized' type='button'>
-            Войти
-          </button>
+          <div className='navigation__button-unauthorized'>Войти</div>
         </Link>
       </nav>
     </div>

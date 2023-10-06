@@ -9,7 +9,9 @@ function Header({ loggedIn, onPopupMenu }) {
   const headerThemeLight = location.pathname !== '/';
 
   return (
-    <header className={`header ${headerThemeLight && 'header_theme_light'}`}>
+    <header
+      className={headerThemeLight ? 'header header_theme_light' : 'header'}
+    >
       <div className='header__flex'>
         <Logo />
         <Navigation

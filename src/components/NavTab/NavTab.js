@@ -3,7 +3,7 @@ import './NavTab.css';
 function NavTab() {
   return (
     <a className='nav-tab' href='#about-project'>
-      <button className='nav-tab__button'>Узнать больше</button>
+      <div className='nav-tab__button'>Узнать больше</div>
     </a>
   );
 }

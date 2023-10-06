@@ -7,15 +7,14 @@ function AccountButton({ theme, displayNone, onClosePopup }) {
     <Link
       to='/profile'
       onClick={onClosePopup}
-      className={`account-button ${displayNone && 'account-button_header'}`}
+      className={
+        displayNone ? 'account-button account-button_header' : 'account-button'
+      }
     >
-      <button
-        className={`button ${theme && 'button_theme_light'}`}
-        type='button'
-      >
-        <p className='button-text'>Аккаунт</p>
-        <div className='button-icon'></div>
-      </button>
+      <div className={theme ? 'button button_theme_light' : 'button'}>
+        <p className='button__text'>Аккаунт</p>
+        <div className='button__icon'></div>
+      </div>
     </Link>
   );
 }

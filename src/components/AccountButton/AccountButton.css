@@ -4,7 +4,6 @@
 
 .button {
   background-color: #2be080;
-  border: none;
   box-sizing: border-box;
   display: flex;
   cursor: pointer;
@@ -23,16 +22,17 @@
   box-shadow: 0px 5px 14px -10px #000;
 }
 
-.button-text {
+.button__text {
   font-size: 13px;
   font-weight: 500;
+  color: #000;
   margin: 0 auto;
   padding: 0;
   align-self: center;
   font-family: 'Inter', 'Arial', sans-serif;
 }
 
-.button-icon {
+.button__icon {
   background-color: #f9f9f9;
   background-image: url('../../images/profile-icon.png');
   background-repeat: no-repeat;

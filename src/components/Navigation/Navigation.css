@@ -21,9 +21,6 @@
 
 .navigation__link_active {
   font-weight: 600;
-  color: #000;
-  text-decoration: none;
-  font-size: 13px;
 }
 
 .navigation__burger-menu {
@@ -49,7 +46,6 @@
 
 .navigation__button-unauthorized {
   background-color: #2be080;
-  border: none;
   box-sizing: border-box;
   display: flex;
   cursor: pointer;

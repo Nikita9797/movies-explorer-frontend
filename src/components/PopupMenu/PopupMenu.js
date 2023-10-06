@@ -6,10 +6,10 @@ import AccountButton from '../AccountButton/AccountButton';
 
 function PopupMenu({ isOpen, onClosePopup }) {
   const isActive = ({ isActive }) =>
-    isActive ? 'popup__option_active' : 'popup__option';
+    isActive ? 'popup__option popup__option_active' : 'popup__option';
 
   return (
-    <div className={`popup ${isOpen && 'popup_opened'}`}>
+    <div className={isOpen ? 'popup popup_opened' : 'popup'}>
       <div className='popup__content'>
         <button
           className='popup__close-button'

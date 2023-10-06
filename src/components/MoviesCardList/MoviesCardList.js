@@ -91,8 +91,8 @@ function MoviesCardList() {
           />
         </li>
       </ul>
-      <div className='movies-card-list__flex'>
-        <button className='movies-card-list__button' type='button'>
+      <div className='movies-cards'>
+        <button className='movies-cards__button' type='button'>
           Ещё
         </button>
       </div>

@@ -16,8 +16,8 @@ function MoviesCard({ image, title, time }) {
           <span
             className={
               isSavedMoviesLocation
-                ? 'movies-card__custom-checkbox_delet'
-                : 'movies-card__custom-checkbox_add'
+                ? 'movies-card__custom-checkbox movies-card__custom-checkbox_delet'
+                : 'movies-card__custom-checkbox'
             }
           ></span>
         </label>

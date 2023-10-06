@@ -25,6 +25,12 @@
   color: #3456f3;
 }
 
+@media screen and (max-width: 768px) {
+  .no-found-page {
+    padding: 408px 0 30px;
+  }
+}
+
 @media screen and (max-width: 540px) {
   .no-found-page {
     padding: 329px 0 30px;
