@@ -15,7 +15,7 @@ import { Route, Routes } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 function App() {
-  const [loggedIn, setLoggedIn] = React.useState(true);
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState(null);
   const [isHeaderVisible, setIsHeaderVisible] = React.useState(true);
   const [isFooterVisible, setIsFooterVisible] = React.useState(true);
