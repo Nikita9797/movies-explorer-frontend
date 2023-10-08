@@ -1,0 +1,121 @@
+.navigation__links {
+  display: flex;
+  column-gap: 16px;
+}
+
+.navigation__link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 400;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.navigation__link:hover {
+  opacity: 0.7;
+}
+
+.navigation__link_theme_light {
+  color: #000;
+}
+
+.navigation__link_active {
+  font-weight: 600;
+}
+
+.navigation__burger-menu {
+  width: 44px;
+  height: 44px;
+  border: none;
+  flex-direction: column;
+  padding: 11px 8px;
+  justify-content: space-between;
+  background-color: transparent;
+  cursor: pointer;
+  display: none;
+}
+
+.navigation__burger-menu-line {
+  border-top: 3px solid #fff;
+  width: 100%;
+}
+
+.navigation__burger-menu-line_theme_light {
+  border-top: 3px solid #000;
+}
+
+.navigation__button-unauthorized {
+  background-color: #2be080;
+  box-sizing: border-box;
+  display: flex;
+  cursor: pointer;
+  width: 76px;
+  border-radius: 5px;
+  padding: 8px 20px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.navigation__button-unauthorized:hover {
+  opacity: 0.8;
+}
+
+.navigation__links-unauthorized {
+  display: flex;
+  column-gap: 30px;
+  align-items: center;
+}
+
+.navigation__link-unauthorized {
+  font-weight: 500;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.navigation__link-unauthorized:hover {
+  opacity: 0.7;
+}
+
+.navigation__link-button-unauthorized {
+  font-weight: 500;
+  color: #000;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+@media screen and (max-width: 769px) {
+  .navigation__burger-menu {
+    display: flex;
+  }
+
+  .navigation__link {
+    display: none;
+  }
+
+  .navigation__link_active {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .navigation__button-unauthorized {
+    width: 54px;
+    padding: 5px 11px;
+    font-size: 10px;
+  }
+
+  .navigation__links-unauthorized {
+    column-gap: 14px;
+  }
+
+  .navigation__link-unauthorized {
+    font-size: 11px;
+  }
+
+  .navigation__burger-menu {
+    width: 40px;
+    height: 43px;
+    padding: 10px;
+  }
+}

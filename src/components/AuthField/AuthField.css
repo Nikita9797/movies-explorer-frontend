@@ -1,0 +1,28 @@
+.auth-field {
+  display: flex;
+  flex-direction: column;
+  row-gap: 7px;
+}
+
+.auth-field__label {
+  font-size: 10px;
+  color: #a0a0a0;
+}
+
+.auth-field__input {
+  padding: 0 0 10px 0;
+  font-size: 14px;
+  border: none;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.auth-field__input:focus {
+  outline: none;
+  border-bottom: 1px solid #3456f3;
+}
+
+.auth-field__error-text {
+  margin: 0 0 10px;
+  font-size: 10px;
+  color: #ff3055;
+}
