@@ -1,11 +1,18 @@
 import React from 'react';
 import './AuthForm.css';
 
-function AuthForm({ children, buttonText }) {
+function AuthForm({
+  children,
+  buttonText,
+  handleSubmit,
+  disabled,
+  errorMessage,
+}) {
   return (
-    <form className='auth-form'>
+    <form className='auth-form' onSubmit={handleSubmit}>
       <div className='auth-form__fields'>{children}</div>
-      <button className='auth-form__button' type='submit'>
+      <p className='auth-form__error-message'>{errorMessage}</p>
+      <button className='auth-form__button' type='submit' disabled={disabled}>
         {buttonText}
       </button>
     </form>

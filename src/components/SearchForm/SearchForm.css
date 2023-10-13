@@ -9,6 +9,7 @@
   row-gap: 7px;
   width: 100%;
   padding: 0 0 13px;
+  position: relative;
 }
 
 .search__input {
@@ -37,6 +38,13 @@
   font-weight: 500;
   cursor: pointer;
   transition: opacity 0.5s ease-in-out;
+}
+
+.search__error {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  color: #ff3055;
 }
 
 .search__line {

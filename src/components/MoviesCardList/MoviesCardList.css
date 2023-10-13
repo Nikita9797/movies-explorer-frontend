@@ -7,6 +7,19 @@
   gap: 38px 20px;
 }
 
+.movies__message {
+  margin: 0;
+  font-size: 29px;
+  text-align: center;
+  color: #a0a0a0;
+  line-height: 1.5;
+}
+
+.movies-card-list__option {
+  display: flex;
+  flex-direction: column;
+}
+
 .movies-cards {
   width: 100%;
   height: 166px;

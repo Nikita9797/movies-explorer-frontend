@@ -4,7 +4,19 @@ import SearchForm from '../SearchForm/SearchForm';
 import Preloader from '../Preloader/Preloader';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
-function Movies({ header, footer, isLoading }) {
+function Movies({
+  header,
+  footer,
+  isLoading,
+  onSubmit,
+  movies,
+  isServerError,
+  isNotFoundMovies,
+  addNewMovie,
+  findMovies,
+  isSavedMovies,
+  handleDeleteMovie,
+}) {
   React.useEffect(() => {
     header(true);
     footer(true);
@@ -12,8 +24,19 @@ function Movies({ header, footer, isLoading }) {
 
   return (
     <main className='movies'>
-      <SearchForm />
-      {isLoading ? <Preloader /> : <MoviesCardList />}
+      <SearchForm onSubmit={onSubmit} findMovies={findMovies} />
+      {isLoading ? (
+        <Preloader />
+      ) : (
+        <MoviesCardList
+          movies={movies}
+          isServerError={isServerError}
+          isNotFoundMovies={isNotFoundMovies}
+          addNewMovie={addNewMovie}
+          isSavedMovies={isSavedMovies}
+          handleDeleteMovie={handleDeleteMovie}
+        />
+      )}
     </main>
   );
 }

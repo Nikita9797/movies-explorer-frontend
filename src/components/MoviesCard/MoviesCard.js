@@ -2,9 +2,22 @@ import React from 'react';
 import './MoviesCard.css';
 import { useLocation } from 'react-router-dom';
 
-function MoviesCard({ image, title, time }) {
+function MoviesCard({
+  image,
+  title,
+  time,
+  id,
+  addNewMovie,
+  isSavedMovies,
+  movie,
+  handleDeleteMovie,
+}) {
   const location = useLocation();
   const isSavedMoviesLocation = '/saved-movies' === location.pathname;
+
+  function handleMovieLick() {
+    addNewMovie(id);
+  }
 
   return (
     <div className='movies-card'>
@@ -12,7 +25,26 @@ function MoviesCard({ image, title, time }) {
       <div className='movies-card__flex-row'>
         <p className='movies-card__title'>{title}</p>
         <label className='movies-card__label'>
-          <input className='movies-card__input' type='checkbox'></input>
+          {isSavedMoviesLocation ? (
+            <input
+              className='movies-card__input_delet'
+              type='checkbox'
+              onChange={() => handleDeleteMovie(movie)}
+            ></input>
+          ) : isSavedMovies(movie) ? (
+            <input
+              className='movies-card__input'
+              type='checkbox'
+              checked={true}
+              onChange={() => handleDeleteMovie(movie)}
+            ></input>
+          ) : (
+            <input
+              className='movies-card__input'
+              type='checkbox'
+              onChange={handleMovieLick}
+            ></input>
+          )}
           <span
             className={
               isSavedMoviesLocation
