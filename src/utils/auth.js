@@ -1,4 +1,3 @@
-//export const BASE_URL = 'http://localhost:3000';
 import { MAIN_URL } from './constants';
 
 export const register = (name, email, password) => {
@@ -19,7 +18,7 @@ export const register = (name, email, password) => {
 };
 
 export const authorize = (email, password) => {
-  return fetch(`https://api.diplomcohort-66.nomoredomainsrocks.ru/signin`, {
+  return fetch(`${MAIN_URL}/signin`, {
     credentials: 'include',
     method: 'POST',
     headers: {

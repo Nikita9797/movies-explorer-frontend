@@ -48,9 +48,8 @@ function MoviesCardList({
       <ul className='movies-card-list'>
         {movies &&
           movies.slice(0, initialMovies).map((item, i) => (
-            <li className='movies-card-list__option'>
+            <li key={i} className='movies-card-list__option'>
               <MoviesCard
-                key={item.id}
                 movie={item}
                 id={item.id}
                 image={

@@ -30,6 +30,7 @@ function MoviesCard({
               className='movies-card__input_delet'
               type='checkbox'
               onChange={() => handleDeleteMovie(movie)}
+              checked={false}
             ></input>
           ) : isSavedMovies(movie) ? (
             <input
@@ -43,6 +44,7 @@ function MoviesCard({
               className='movies-card__input'
               type='checkbox'
               onChange={handleMovieLick}
+              checked={false}
             ></input>
           )}
           <span

@@ -6,7 +6,7 @@ import AuthField from '../AuthField/AuthField';
 import useForm from '../../hooks/useForm';
 
 function Register({ header, footer, handleRegister, errorMessage }) {
-  const { values, handleChange, errors, isValid, resetForm } = useForm();
+  const { values, handleChange, errors, isValid} = useForm();
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -14,7 +14,6 @@ function Register({ header, footer, handleRegister, errorMessage }) {
       return;
     }
     handleRegister(values);
-    resetForm();
   }
 
   React.useEffect(() => {

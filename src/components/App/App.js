@@ -15,6 +15,7 @@ import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { moviesApi } from '../../utils/MoviesApi';
 import { mainApi } from '../../utils/MainApi';
+import useForm from '../../hooks/useForm';
 import {
   register,
   authorize,
@@ -33,9 +34,11 @@ function App() {
   const [isServerError, setIsServerError] = React.useState(false);
   const [movies, setMovies] = React.useState([]);
   const [isNotFoundMovies, setIsNotFoundMovies] = React.useState(false);
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const [errorMessageReg, setErrorMessageReg] = React.useState('');
+  const [errorMessageLogin, setErrorMessageLogin] = React.useState('');
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [foundSavedMovies, setFoundSavedMovies] = React.useState([]);
+  const {resetForm} = useForm();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -62,6 +65,10 @@ function App() {
   }, [loggedIn]);
 
   React.useEffect(() => {
+    setMovies(JSON.parse(localStorage.getItem('movies')) || []);
+  }, []);
+
+  React.useEffect(() => {
     handleTokenCheck();
   }, []);
 
@@ -80,10 +87,6 @@ function App() {
   function setFooterVisible(state) {
     setIsFooterVisible(state);
   }
-
-  React.useEffect(() => {
-    setMovies(JSON.parse(localStorage.getItem('movies')) || []);
-  }, []);
 
   function reqMovies(keyword, checkboxFilter) {
     if (allMovies.length === 0) {
@@ -221,14 +224,16 @@ function App() {
     register(data.name, data.email, data.password)
       .then(() => {
         handleLogin(data);
+        resetForm()
+        setErrorMessageReg('')
       })
       .catch((err) => {
         if (err === '409') {
-          return setErrorMessage('Данный email уже занят');
+          return setErrorMessageReg('Данный email уже занят');
         } else if (err === '400') {
-          return setErrorMessage('Ошибка валидации');
+          return setErrorMessageReg('Ошибка валидации');
         } else {
-          return setErrorMessage('Ошибка сервера');
+          return setErrorMessageReg('Ошибка сервера');
         }
       });
   }
@@ -239,12 +244,14 @@ function App() {
         setLoggedIn(true);
         localStorage.setItem('loggedIn', true);
         navigate('/movies', { replace: true });
+        resetForm();
+        setErrorMessageLogin('');
       })
       .catch((err) => {
         if (err === '401') {
-          return setErrorMessage('Неверные данные');
+          return setErrorMessageLogin('Неверные данные');
         } else {
-          return setErrorMessage('Ошибка сервера');
+          return setErrorMessageLogin('Ошибка сервера');
         }
       });
   }
@@ -270,6 +277,9 @@ function App() {
         localStorage.removeItem('checkboxFilter');
         localStorage.removeItem('movies');
         localStorage.removeItem('allMovies');
+        localStorage.removeItem('checkboxFilterSavedMovie');
+        localStorage.removeItem('keywordSavedMovie');
+        localStorage.removeItem('foundSavedMovies');
         setMovies([]);
       })
       .catch((err) => {
@@ -350,7 +360,7 @@ function App() {
                   header={setHeaderVisible}
                   footer={setFooterVisible}
                   handleRegister={handleRegister}
-                  errorMessage={errorMessage}
+                  errorMessage={errorMessageReg}
                 />
               }
             />
@@ -361,7 +371,7 @@ function App() {
                   header={setHeaderVisible}
                   footer={setFooterVisible}
                   handleLogin={handleLogin}
-                  errorMessage={errorMessage}
+                  errorMessage={errorMessageLogin}
                 />
               }
             />

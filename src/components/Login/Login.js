@@ -6,7 +6,7 @@ import AuthField from '../AuthField/AuthField';
 import useForm from '../../hooks/useForm';
 
 function Login({ header, footer, handleLogin, errorMessage }) {
-  const { values, handleChange, errors, isValid, resetForm } = useForm();
+  const { values, handleChange, errors, isValid } = useForm();
 
   React.useEffect(() => {
     header(false);
@@ -19,7 +19,6 @@ function Login({ header, footer, handleLogin, errorMessage }) {
       return;
     }
     handleLogin(values);
-    resetForm();
   }
 
   return (
@@ -41,7 +40,6 @@ function Login({ header, footer, handleLogin, errorMessage }) {
           label='E-mail'
           type='email'
           error={errors.email || ''}
-          values={values.email || ''}
           onChange={handleChange}
           required
         />
@@ -51,7 +49,6 @@ function Login({ header, footer, handleLogin, errorMessage }) {
           label='Пароль'
           type='password'
           error={errors.password || ''}
-          values={values.password || ''}
           onChange={handleChange}
           required
           minLength='4'

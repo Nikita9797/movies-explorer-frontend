@@ -24,7 +24,7 @@ function FilterCheckbox({
           type='checkbox'
           name='checkbox'
           onChange={() => {}}
-          checked={checkboxFilter}
+          checked={checkboxFilter || false}
         ></input>
         <span className='filter-checkbox__custom'>
           <span className='filter-checkbox__custom-button'></span>

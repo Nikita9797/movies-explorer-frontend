@@ -12,15 +12,17 @@ function Profile({ header, footer, signOut }) {
   const [doneMessage, setDoneMessage] = React.useState('');
   const [errorMessage, setErrorMessage] = React.useState('');
 
+  React.useEffect(() => {
+    header(true);
+    footer(false);
+  }, []);
+
   function handleSubmit(evt) {
     evt.preventDefault();
     setDoneMessage('');
     setErrorMessage('');
     mainApi
-      .setUserInfo(
-        values.name ? values.name : currentUser.name,
-        values.email ? values.email : currentUser.email
-      )
+      .setUserInfo(values.name || currentUser.name, values.email || currentUser.email)
       .then((res) => {
         setValues(res);
         setDoneMessage('Данные обновлены');
@@ -34,10 +36,6 @@ function Profile({ header, footer, signOut }) {
       });
     resetForm();
   }
-  React.useEffect(() => {
-    header(true);
-    footer(false);
-  }, []);
 
   return (
     <section className='profile'>
