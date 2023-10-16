@@ -16,10 +16,17 @@ function Movies({
   findMovies,
   isSavedMovies,
   handleDeleteMovie,
+  setIsNotFoundMovies,
 }) {
   React.useEffect(() => {
     header(true);
     footer(true);
+    if (movies.length) {
+      setIsNotFoundMovies(false);
+    }
+    if (!JSON.parse(localStorage.getItem('allMovies'))) {
+      setIsNotFoundMovies(false);
+    }
   }, []);
 
   return (
@@ -31,7 +38,7 @@ function Movies({
         <MoviesCardList
           movies={movies}
           isServerError={isServerError}
-          isNotFoundMovies={isNotFoundMovies}
+          isNotFoundMessage={isNotFoundMovies}
           addNewMovie={addNewMovie}
           isSavedMovies={isSavedMovies}
           handleDeleteMovie={handleDeleteMovie}

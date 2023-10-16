@@ -39,6 +39,7 @@ function Login({ header, footer, handleLogin, errorMessage }) {
           name='email'
           label='E-mail'
           type='email'
+          pattern='^\S+@\S+\.\S+$'
           error={errors.email || ''}
           onChange={handleChange}
           required

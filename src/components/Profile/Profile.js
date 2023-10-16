@@ -3,37 +3,45 @@ import { useContext } from 'react';
 import './Profile.css';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import useForm from '../../hooks/useForm';
-import { mainApi } from '../../utils/MainApi';
 
-function Profile({ header, footer, signOut }) {
+function Profile({
+  header,
+  footer,
+  signOut,
+  handleUpdateProfile,
+  doneProfileMessage,
+  errorProfileMessage,
+  setDoneProfileMessage,
+  setErrorProfileMessage,
+  userNameByConflictError,
+}) {
   const currentUser = useContext(CurrentUserContext);
-  const { values, handleChange, errors, isValid, resetForm, setValues } =
-    useForm();
-  const [doneMessage, setDoneMessage] = React.useState('');
-  const [errorMessage, setErrorMessage] = React.useState('');
+  const { values, handleChange, errors, isValid, resetForm } = useForm();
+
+  function isNotChanged() {
+    setDoneProfileMessage('');
+    setErrorProfileMessage('');
+    if (
+      currentUser.name ===
+        (values.name || userNameByConflictError || currentUser.name) &&
+      currentUser.email === (values.email || currentUser.email)
+    ) {
+      resetForm();
+    }
+  }
 
   React.useEffect(() => {
     header(true);
     footer(false);
   }, []);
 
+  React.useEffect(() => {
+    isNotChanged();
+  }, [values.name, values.email]);
+
   function handleSubmit(evt) {
     evt.preventDefault();
-    setDoneMessage('');
-    setErrorMessage('');
-    mainApi
-      .setUserInfo(values.name || currentUser.name, values.email || currentUser.email)
-      .then((res) => {
-        setValues(res);
-        setDoneMessage('Данные обновлены');
-      })
-      .catch((err) => {
-        if ((err = '409')) {
-          return setErrorMessage('Данный email уже занят');
-        } else {
-          return setErrorMessage('Ошибка сервера');
-        }
-      });
+    handleUpdateProfile(values);
     resetForm();
   }
 
@@ -69,17 +77,18 @@ function Profile({ header, footer, signOut }) {
             onChange={handleChange}
             required
             id='email'
+            pattern='^\S+@\S+\.\S+$'
           ></input>
           <span className='profile__error-text'>{errors.email || ''}</span>
         </div>
         <p
           className={`${
-            errorMessage
+            errorProfileMessage
               ? 'profile__message profile__message_error'
               : 'profile__message'
           }`}
         >
-          {doneMessage || errorMessage}
+          {doneProfileMessage || errorProfileMessage}
         </p>
         <button
           className='profile__button-edit'

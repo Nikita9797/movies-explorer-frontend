@@ -5,15 +5,10 @@ function FilterCheckbox({
   handleCheckboxFilter,
   checkboxFilter,
   setCheckboxFilter,
-  setCheckboxFilterSavedMovie,
 }) {
   React.useEffect(() => {
     const initialState = JSON.parse(localStorage.getItem('checkboxFilter'));
-    const initialStateSavedMovie = JSON.parse(
-      localStorage.getItem('checkboxFilterSavedMovie')
-    );
     setCheckboxFilter(initialState);
-    setCheckboxFilterSavedMovie(initialStateSavedMovie);
   }, []);
 
   return (

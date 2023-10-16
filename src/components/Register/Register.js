@@ -6,7 +6,7 @@ import AuthField from '../AuthField/AuthField';
 import useForm from '../../hooks/useForm';
 
 function Register({ header, footer, handleRegister, errorMessage }) {
-  const { values, handleChange, errors, isValid} = useForm();
+  const { values, handleChange, errors, isValid } = useForm();
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -50,6 +50,7 @@ function Register({ header, footer, handleRegister, errorMessage }) {
           name='email'
           label='E-mail'
           type='email'
+          pattern='^\S+@\S+\.\S+$'
           error={errors.email || ''}
           onChange={handleChange}
           required

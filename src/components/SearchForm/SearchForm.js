@@ -3,7 +3,7 @@ import './SearchForm.css';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import { useLocation } from 'react-router-dom';
 
-function SearchForm({ onSubmit, findMovies, savedMovies }) {
+function SearchForm({ onSubmit, findMovies, movies }) {
   const [errorMessage, setErrorMessage] = React.useState('');
   const [isFormValid, setIsFormValid] = React.useState(true);
   const [keywordMovie, setKeywordMovie] = React.useState('');
@@ -16,7 +16,6 @@ function SearchForm({ onSubmit, findMovies, savedMovies }) {
 
   React.useEffect(() => {
     setKeywordMovie(localStorage.getItem('keywordMovie'));
-    setKeywordSavedMovie(localStorage.getItem('keywordSavedMovie'));
   }, []);
 
   function handleChange(evt) {
@@ -42,7 +41,7 @@ function SearchForm({ onSubmit, findMovies, savedMovies }) {
     if (!keyword) {
       setIsFormValid(false);
     } else if (isFormValid) {
-      findMovies(savedMovies, keyword, checkboxFilterSavedMovie);
+      findMovies(movies, keyword, checkboxFilterSavedMovie);
     }
     setErrorMessage('Нужно ввести ключевое слово');
   }
@@ -79,7 +78,7 @@ function SearchForm({ onSubmit, findMovies, savedMovies }) {
   function findMoviesByCheckbox() {
     if (keywordMovie === localStorage.getItem('keywordMovie')) {
       findMovies(
-        JSON.parse(localStorage.getItem('movies')),
+        JSON.parse(localStorage.getItem('allMovies')),
         keywordMovie,
         JSON.parse(localStorage.getItem('checkboxFilter'))
       );
@@ -89,8 +88,8 @@ function SearchForm({ onSubmit, findMovies, savedMovies }) {
   function findSavedMoviesByCheckbox() {
     if (keywordSavedMovie === localStorage.getItem('keywordSavedMovie')) {
       findMovies(
-        JSON.parse(localStorage.getItem('foundSavedMovies')),
-        keywordSavedMovie,
+        movies,
+        keywordSavedMovie || '',
         JSON.parse(localStorage.getItem('checkboxFilterSavedMovie'))
       );
     }

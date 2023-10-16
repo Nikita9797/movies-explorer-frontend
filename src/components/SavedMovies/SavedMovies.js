@@ -8,6 +8,7 @@ function SavedMovies({
   header,
   footer,
   foundSavedMovies,
+  setFoundSavedMovies,
   findMovies,
   movies,
   isServerError,
@@ -15,6 +16,8 @@ function SavedMovies({
   isSavedMovies,
   addNewMovie,
   handleDeleteMovie,
+  setIsNotFoundMovies,
+  setIsSearchInSavedMovies,
 }) {
   const location = useLocation();
   const isSavedMoviesLocation = '/saved-movies' === location.pathname;
@@ -22,11 +25,15 @@ function SavedMovies({
   React.useEffect(() => {
     header(true);
     footer(true);
+    setFoundSavedMovies(movies);
+    setIsNotFoundMovies(false);
+    setIsSearchInSavedMovies(false);
+    localStorage.setItem('keywordSavedMovie', '');
   }, []);
 
   return (
     <main className='saved-movies'>
-      <SearchForm findMovies={findMovies} savedMovies={movies} />
+      <SearchForm findMovies={findMovies} movies={movies} />
       <MoviesCardList
         isSavedMoviesLocation={isSavedMoviesLocation}
         movies={foundSavedMovies}

@@ -11,6 +11,7 @@ import Footer from '../Footer/Footer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import PopupMenu from '../PopupMenu/PopupMenu';
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
+import ProtectedRouteForLoginInUser from '../ProtectedRoute/ProtectedRouteForLoginInUser';
 import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 import { moviesApi } from '../../utils/MoviesApi';
@@ -33,12 +34,20 @@ function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [isServerError, setIsServerError] = React.useState(false);
   const [movies, setMovies] = React.useState([]);
+  const [isNotFoundMessage, setIsNotFoundMessage] = React.useState(false);
   const [isNotFoundMovies, setIsNotFoundMovies] = React.useState(false);
   const [errorMessageReg, setErrorMessageReg] = React.useState('');
   const [errorMessageLogin, setErrorMessageLogin] = React.useState('');
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [foundSavedMovies, setFoundSavedMovies] = React.useState([]);
-  const {resetForm} = useForm();
+  const [doneProfileMessage, setDoneProfileMessage] = React.useState('');
+  const [errorProfileMessage, setErrorProfileMessage] = React.useState('');
+  const [busyEmail, setBusyEmail] = React.useState('');
+  const [userNameByConflictError, setUserNameByConflictError] =
+    React.useState('');
+  const [isSearchInSavedMovies, setIsSearchInSavedMovies] =
+    React.useState(false);
+  const { resetForm } = useForm();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -71,6 +80,14 @@ function App() {
   React.useEffect(() => {
     handleTokenCheck();
   }, []);
+
+  React.useEffect(() => {
+    if (!isSearchInSavedMovies) {
+      setIsNotFoundMovies(false);
+    } else {
+      handleNotFoundMovies(foundSavedMovies);
+    }
+  }, [foundSavedMovies]);
 
   function handlePopupMenuClick() {
     setIsPopupMenuOpen(true);
@@ -116,38 +133,35 @@ function App() {
       localStorage.setItem('keywordSavedMovie', keyword);
     }
 
-    const foundMoviesRu = movies.filter((item) => {
-      return item.nameRU.toLowerCase().includes(keyword.toLowerCase());
-    });
-
-    const foundMoviesEN = movies.filter((item) => {
-      return item.nameEN.toLowerCase().includes(keyword.toLowerCase());
+    const foundAllMovies = movies.filter((item) => {
+      return (
+        item.nameRU.toLowerCase().includes(keyword.toLowerCase()) ||
+        item.nameEN.toLowerCase().includes(keyword.toLowerCase())
+      );
     });
 
     if (checkboxFilter) {
-      setFoundShortMovies(foundMoviesRu, foundMoviesEN);
+      setFoundShortMovies(foundAllMovies);
     } else {
-      setFoundMovies(foundMoviesRu, foundMoviesEN);
+      setFoundMovies(foundAllMovies);
     }
   }
 
-  function setFoundMovies(moviesRu, moviesEn) {
+  function setFoundMovies(movies) {
     if (location.pathname === '/movies') {
-      setMovies(moviesRu.concat(moviesEn));
-      localStorage.setItem('movies', JSON.stringify(moviesRu.concat(moviesEn)));
+      setMovies(movies);
+      localStorage.setItem('movies', JSON.stringify(movies));
     }
     if (location.pathname === '/saved-movies') {
-      setFoundSavedMovies(moviesRu.concat(moviesEn));
-      localStorage.setItem(
-        'foundSavedMovies',
-        JSON.stringify(moviesRu.concat(moviesEn))
-      );
+      setFoundSavedMovies(movies);
+      setIsSearchInSavedMovies(true);
     }
-    handleNotFoundMovies(moviesRu.concat(moviesEn));
+    handleNotFoundMovies(movies);
+    handleNotFoundMessage(movies);
   }
 
-  function setFoundShortMovies(moviesRu, moviesEn) {
-    const foundMoviesShort = moviesRu.concat(moviesEn).filter((item) => {
+  function setFoundShortMovies(movies) {
+    const foundMoviesShort = movies.filter((item) => {
       return item.duration <= 40;
     });
 
@@ -156,12 +170,18 @@ function App() {
       localStorage.setItem('movies', JSON.stringify(foundMoviesShort));
     } else {
       setFoundSavedMovies(foundMoviesShort);
-      localStorage.setItem(
-        'foundSavedMovies',
-        JSON.stringify(foundMoviesShort)
-      );
+      setIsSearchInSavedMovies(true);
     }
     handleNotFoundMovies(foundMoviesShort);
+    handleNotFoundMessage(foundMoviesShort);
+  }
+
+  function handleNotFoundMessage(movies) {
+    if (!movies.length) {
+      setIsNotFoundMessage(true);
+    } else {
+      setIsNotFoundMessage(false);
+    }
   }
 
   function handleNotFoundMovies(movies) {
@@ -207,10 +227,14 @@ function App() {
       mainApi
         .deleteMovieCard(deletedCard._id)
         .then(() => {
-          const othersCards = foundSavedMovies.filter(
+          const othersCards = savedMovies.filter(
             (item) => item._id !== deletedCard._id
           );
-          setFoundSavedMovies(othersCards);
+
+          const othersFoundCards = foundSavedMovies.filter(
+            (item) => item._id !== deletedCard._id
+          );
+          setFoundSavedMovies(othersFoundCards);
           setSavedMovies(othersCards);
           setMovies(movies);
         })
@@ -220,12 +244,33 @@ function App() {
     }
   }
 
+  function handleUpdateProfile(values) {
+    mainApi
+      .setUserInfo(
+        values.name || currentUser.name,
+        busyEmail || values.email || currentUser.email
+      )
+      .then((res) => {
+        setDoneProfileMessage('Данные обновлены');
+        setCurrentUser(res.user);
+      })
+      .catch((err) => {
+        if ((err = '409')) {
+          setBusyEmail(values.email);
+          setUserNameByConflictError(values.name || currentUser.name);
+          return setErrorProfileMessage('Данный email уже занят');
+        } else {
+          return setErrorProfileMessage('Ошибка сервера');
+        }
+      });
+  }
+
   function handleRegister(data) {
     register(data.name, data.email, data.password)
       .then(() => {
         handleLogin(data);
-        resetForm()
-        setErrorMessageReg('')
+        resetForm();
+        setErrorMessageReg('');
       })
       .catch((err) => {
         if (err === '409') {
@@ -314,11 +359,12 @@ function App() {
                   onSubmit={reqMovies}
                   movies={movies}
                   isServerError={isServerError}
-                  isNotFoundMovies={isNotFoundMovies}
+                  isNotFoundMovies={isNotFoundMessage}
                   addNewMovie={addNewMovie}
                   findMovies={findMovies}
                   isSavedMovies={isSavedMovies}
                   handleDeleteMovie={handleDeleteMovie}
+                  setIsNotFoundMovies={setIsNotFoundMessage}
                 />
               }
             />
@@ -331,6 +377,7 @@ function App() {
                   header={setHeaderVisible}
                   footer={setFooterVisible}
                   foundSavedMovies={foundSavedMovies}
+                  setFoundSavedMovies={setFoundSavedMovies}
                   movies={savedMovies}
                   findMovies={findMovies}
                   isServerError={isServerError}
@@ -338,6 +385,8 @@ function App() {
                   isSavedMovies={isSavedMovies}
                   addNewMovie={addNewMovie}
                   handleDeleteMovie={handleDeleteMovie}
+                  setIsNotFoundMovies={setIsNotFoundMovies}
+                  setIsSearchInSavedMovies={setIsSearchInSavedMovies}
                 />
               }
             />
@@ -350,28 +399,38 @@ function App() {
                   header={setHeaderVisible}
                   footer={setFooterVisible}
                   signOut={signOut}
+                  handleUpdateProfile={handleUpdateProfile}
+                  doneProfileMessage={doneProfileMessage}
+                  errorProfileMessage={errorProfileMessage}
+                  setDoneProfileMessage={setDoneProfileMessage}
+                  setErrorProfileMessage={setErrorProfileMessage}
+                  userNameByConflictError={userNameByConflictError}
                 />
               }
             />
             <Route
               path='/signup'
               element={
-                <Register
+                <ProtectedRouteForLoginInUser
+                  element={Register}
                   header={setHeaderVisible}
                   footer={setFooterVisible}
                   handleRegister={handleRegister}
                   errorMessage={errorMessageReg}
+                  loggedIn={loggedIn}
                 />
               }
             />
             <Route
               path='/signin'
               element={
-                <Login
+                <ProtectedRouteForLoginInUser
+                  element={Login}
                   header={setHeaderVisible}
                   footer={setFooterVisible}
                   handleLogin={handleLogin}
                   errorMessage={errorMessageLogin}
+                  loggedIn={loggedIn}
                 />
               }
             />

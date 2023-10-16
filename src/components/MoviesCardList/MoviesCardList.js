@@ -8,6 +8,7 @@ function MoviesCardList({
   movies,
   isServerError,
   isNotFoundMovies,
+  isNotFoundMessage,
   addNewMovie,
   isSavedMovies,
   handleDeleteMovie,
@@ -44,7 +45,13 @@ function MoviesCardList({
           или сервер недоступен. Подождите немного и попробуйте ещё раз
         </p>
       )}
-      {isNotFoundMovies && <p className='movies__message'>Ничего не найдено</p>}
+      {location.pathname === '/movies'
+        ? isNotFoundMessage && (
+            <p className='movies__message'>Ничего не найдено</p>
+          )
+        : isNotFoundMovies && (
+            <p className='movies__message'>Ничего не найдено</p>
+          )}
       <ul className='movies-card-list'>
         {movies &&
           movies.slice(0, initialMovies).map((item, i) => (
