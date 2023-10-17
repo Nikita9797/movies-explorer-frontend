@@ -29,6 +29,7 @@ function SavedMovies({
     setIsNotFoundMovies(false);
     setIsSearchInSavedMovies(false);
     localStorage.setItem('keywordSavedMovie', '');
+    localStorage.setItem('checkboxFilterSavedMovie', false);
   }, []);
 
   return (

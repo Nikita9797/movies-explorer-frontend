@@ -76,7 +76,7 @@ function SearchForm({ onSubmit, findMovies, movies }) {
   }
 
   function findMoviesByCheckbox() {
-    if (keywordMovie === localStorage.getItem('keywordMovie')) {
+    if (keywordMovie === localStorage.getItem('keywordMovie') && keywordMovie) {
       findMovies(
         JSON.parse(localStorage.getItem('allMovies')),
         keywordMovie,

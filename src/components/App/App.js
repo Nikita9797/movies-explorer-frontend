@@ -202,7 +202,7 @@ function App() {
     mainApi
       .addNewMovie(getMovieInfoById(movieId))
       .then((res) => {
-        setSavedMovies([...foundSavedMovies, res]);
+        setSavedMovies([...savedMovies, res]);
         setFoundSavedMovies([...foundSavedMovies, res]);
       })
       .catch((err) => {
@@ -317,14 +317,8 @@ function App() {
       .then(() => {
         navigate('/', { replace: true });
         setLoggedIn(false);
-        localStorage.removeItem('loggedIn');
-        localStorage.removeItem('keywordMovie');
-        localStorage.removeItem('checkboxFilter');
-        localStorage.removeItem('movies');
-        localStorage.removeItem('allMovies');
-        localStorage.removeItem('checkboxFilterSavedMovie');
-        localStorage.removeItem('keywordSavedMovie');
-        localStorage.removeItem('foundSavedMovies');
+        localStorage.clear();
+        setAllMovies([]);
         setMovies([]);
       })
       .catch((err) => {
