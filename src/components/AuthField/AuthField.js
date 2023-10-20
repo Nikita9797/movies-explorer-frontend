@@ -5,12 +5,7 @@ function AuthField({ label, type, error, ...props }) {
   return (
     <div className='auth-field'>
       <label className='auth-field__label'>{label}</label>
-      <input
-        className='auth-field__input'
-        type={type}
-        {...props}
-        defaultValue=''
-      ></input>
+      <input className='auth-field__input' type={type} {...props}></input>
       <span className='auth-field__error-text'>{error}</span>
     </div>
   );

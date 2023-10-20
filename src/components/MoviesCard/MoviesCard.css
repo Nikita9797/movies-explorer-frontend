@@ -1,5 +1,7 @@
 .movies-card__image {
   width: 100%;
+  object-fit: cover;
+  aspect-ratio: 4/3;
 }
 
 .movies-card__flex-row {
@@ -26,8 +28,18 @@
   appearance: none;
 }
 
+.movies-card__input_delet {
+  width: 24px;
+  height: 24px;
+  appearance: none;
+}
+
 .movies-card__input:checked ~ .movies-card__custom-checkbox::before {
   background-image: url('../../images/like-active-icon.svg');
+}
+
+.movies-card__input_delet ~ .movies-card__custom-checkbox_delet::before {
+  background-image: url('../../images/close-button-movie.svg');
 }
 
 .movies-card__custom-checkbox {
